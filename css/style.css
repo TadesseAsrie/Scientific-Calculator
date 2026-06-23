@@ -1,0 +1,381 @@
+/* --- Core CSS Variables & Reset --- */
+:root {
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1e38 100%);
+    --calc-bg: rgba(30, 41, 59, 0.45);
+    --calc-border: rgba(255, 255, 255, 0.08);
+    --screen-bg: rgba(15, 23, 42, 0.6);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --btn-num: rgba(255, 255, 255, 0.06);
+    --btn-num-hover: rgba(255, 255, 255, 0.12);
+    --btn-op: rgba(245, 158, 11, 0.2);
+    --btn-op-hover: rgba(245, 158, 11, 0.35);
+    --btn-op-text: #fbbf24;
+    --btn-sci: rgba(148, 163, 184, 0.1);
+    --btn-sci-hover: rgba(148, 163, 184, 0.25);
+    --btn-sci-text: #cbd5e1;
+    --btn-equals: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    --btn-equals-hover: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    --btn-clear: rgba(239, 68, 68, 0.2);
+    --btn-clear-hover: rgba(239, 68, 68, 0.35);
+    --btn-clear-text: #fca5a5;
+    --shadow-main: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    --glass-blur: blur(20px);
+}
+
+[data-theme="light"] {
+    --bg-gradient: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    --calc-bg: rgba(255, 255, 255, 0.65);
+    --calc-border: rgba(0, 0, 0, 0.08);
+    --screen-bg: rgba(255, 255, 255, 0.8);
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --btn-num: rgba(0, 0, 0, 0.04);
+    --btn-num-hover: rgba(0, 0, 0, 0.08);
+    --btn-op: rgba(245, 158, 11, 0.15);
+    --btn-op-hover: rgba(245, 158, 11, 0.25);
+    --btn-op-text: #b45309;
+    --btn-sci: rgba(71, 85, 105, 0.08);
+    --btn-sci-hover: rgba(71, 85, 105, 0.16);
+    --btn-sci-text: #334155;
+    --btn-equals: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+    --btn-equals-hover: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    --btn-clear: rgba(220, 38, 38, 0.12);
+    --btn-clear-hover: rgba(220, 38, 38, 0.22);
+    --btn-clear-text: #991b1b;
+    --shadow-main: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    user-select: none;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--bg-gradient);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    transition: background 0.5s ease;
+    overflow: hidden;
+}
+
+/* --- Calculator Application Wrapper --- */
+.calculator-container {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    background: var(--calc-bg);
+    border: 1px solid var(--calc-border);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-radius: 28px;
+    box-shadow: var(--shadow-main);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Toolbar Headers */
+.calc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.controls-left, .controls-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 6px;
+    border-radius: 50%;
+    transition: background 0.2s, transform 0.1s;
+    color: var(--text-primary);
+}
+
+.icon-btn:hover {
+    background: var(--btn-num-hover);
+    transform: scale(1.05);
+}
+
+.icon-btn:active {
+    transform: scale(0.95);
+}
+
+.badge {
+    background: var(--btn-sci);
+    color: var(--btn-op-text);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    border: 1px solid var(--calc-border);
+}
+
+select {
+    background: var(--btn-sci);
+    color: var(--text-primary);
+    border: 1px solid var(--calc-border);
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    outline: none;
+}
+
+/* --- Display Section --- */
+.calc-screen {
+    background: var(--screen-bg);
+    border: 1px solid var(--calc-border);
+    border-radius: 18px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 120px;
+    text-align: right;
+    word-break: break-all;
+}
+
+.expression {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    min-height: 24px;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 4px;
+    scrollbar-width: none; /* Hide default scrollbars */
+}
+.expression::-webkit-scrollbar { display: none; }
+
+.result-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: auto;
+    gap: 8px;
+}
+
+.calc-counter {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    align-self: flex-end;
+    font-family: monospace;
+}
+
+.result {
+    color: var(--text-primary);
+    font-size: 2.5rem;
+    font-weight: 600;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+    transition: font-size 0.15s ease-out;
+}
+.result::-webkit-scrollbar { display: none; }
+
+/* --- Special Rows --- */
+.memory-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+}
+
+.btn-mem {
+    font-size: 0.75rem !important;
+    font-weight: 700;
+    color: var(--text-secondary) !important;
+    padding: 8px 0 !important;
+    background: transparent !important;
+}
+.btn-mem:hover {
+    color: var(--btn-op-text) !important;
+    background: var(--btn-sci) !important;
+}
+
+/* --- Keypad Grid --- */
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+}
+
+.btn {
+    border: none;
+    outline: none;
+    padding: 14px 0;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    transition: transform 0.3s, opacity 0.5s;
+}
+
+.btn:active::after {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 1;
+    transition: 0s;
+}
+
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(1px); }
+
+.btn-num { background: var(--btn-num); color: var(--text-primary); }
+.btn-num:hover { background: var(--btn-num-hover); }
+
+.btn-op { background: var(--btn-op); color: var(--btn-op-text); font-weight: 600; }
+.btn-op:hover { background: var(--btn-op-hover); }
+
+.btn-sci { background: var(--btn-sci); color: var(--btn-sci-text); font-size: 0.9rem; }
+.btn-sci:hover { background: var(--btn-sci-hover); }
+
+.btn-clear, .btn-delete { background: var(--btn-clear); color: var(--btn-clear-text); }
+.btn-clear:hover, .btn-delete:hover { background: var(--btn-clear-hover); }
+
+.btn-equals {
+    background: var(--btn-equals);
+    color: #ffffff;
+    font-weight: 700;
+}
+.btn-equals:hover { background: var(--btn-equals-hover); }
+
+.span-two { grid-column: span 2; }
+
+/* --- Side History Panel --- */
+.history-panel {
+    position: absolute;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--screen-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-radius: 28px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    z-index: 10;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.history-panel.open { right: 0; }
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--calc-border);
+    padding-bottom: 10px;
+}
+
+.btn-text {
+    background: none;
+    border: none;
+    color: var(--btn-clear-text);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.history-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-right: 4px;
+}
+.history-list::-webkit-scrollbar { width: 4px; }
+.history-list::-webkit-scrollbar-thumb { background: var(--calc-border); border-radius: 4px; }
+
+.history-item {
+    padding: 10px;
+    background: var(--btn-num);
+    border-radius: 8px;
+    text-align: right;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+}
+
+.history-item:hover {
+    border-color: var(--btn-op-text);
+    background: var(--btn-num-hover);
+}
+
+.history-expr { color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 2px; }
+.history-res { color: var(--btn-op-text); font-weight: 600; font-size: 1.1rem; }
+
+/* --- Toast Notification System --- */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(15, 23, 42, 0.9);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 100;
+}
+.toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+.sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;
+}
+
+/* --- Media Queries / Responsive Rules --- */
+@media (max-width: 480px) {
+    body { padding: 10px; }
+    .calculator-container { padding: 16px; border-radius: 20px; gap: 12px; }
+    .keypad { gap: 6px; grid-template-columns: repeat(5, 1fr); }
+    /* Reorganize for a 5-column grid layout cleanly on mobile screens */
+    .span-two { grid-column: span 1; } 
+    .btn { padding: 12px 0; font-size: 0.95rem; }
+    .result { font-size: 2rem; }
+    .history-panel { border-radius: 20px; }
+}
