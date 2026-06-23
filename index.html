@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Scientific Calculator</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="calculator-container">
+        <header class="calc-header">
+            <div class="controls-left">
+                <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme" title="Toggle Theme">🌓</button>
+                <button id="sound-toggle" class="icon-btn" aria-label="Toggle Sound" title="Toggle Sound">🔊</button>
+                <span id="angle-mode" class="badge">DEG</span>
+            </div>
+            <div class="controls-right">
+                <label for="precision-select" class="sr-only">Precision</label>
+                <select id="precision-select" title="Decimal Precision">
+                    <option value="all">Auto</option>
+                    <option value="2">2 Dec</option>
+                    <option value="4">4 Dec</option>
+                    <option value="6" selected>6 Dec</option>
+                    <option value="8">8 Dec</option>
+                </select>
+                <button id="toggle-history" class="icon-btn" aria-label="Toggle History" title="View History">📜</button>
+            </div>
+        </header>
+
+        <main class="calc-screen">
+            <div id="expression-display" class="expression" aria-live="polite"></div>
+            <div class="result-container">
+                <span id="calc-counter" class="calc-counter" title="Calculations performed">#0</span>
+                <div id="result-display" class="result" aria-live="assertive">0</div>
+                <button id="copy-result" class="icon-btn copy-btn" aria-label="Copy Result" title="Copy Result">📋</button>
+            </div>
+        </main>
+
+        <section class="memory-row" aria-label="Memory Functions">
+            <button data-action="mc" class="btn btn-mem">MC</button>
+            <button data-action="mr" class="btn btn-mem">MR</button>
+            <button data-action="m+" class="btn btn-mem">M+</button>
+            <button data-action="m-" class="btn btn-mem">M-</button>
+            <button data-action="ms" class="btn btn-mem">MS</button>
+        </section>
+
+        <section class="keypad" aria-label="Calculator Keypad">
+            <button data-action="deg-rad" class="btn btn-sci">DEG/RAD</button>
+            <button data-action="sci-func" data-value="sin" class="btn btn-sci">sin</button>
+            <button data-action="sci-func" data-value="cos" class="btn btn-sci">cos</button>
+            <button data-action="sci-func" data-value="tan" class="btn btn-sci">tan</button>
+            <button data-action="clear" class="btn btn-clear">C</button>
+            <button data-action="delete" class="btn btn-delete">⌫</button>
+
+            <button data-action="sci-func" data-value="asin" class="btn btn-sci">asin</button>
+            <button data-action="sci-func" data-value="acos" class="btn btn-sci">acos</button>
+            <button data-action="sci-func" data-value="atan" class="btn btn-sci">atan</button>
+            <button data-action="operator" data-value="mod" class="btn btn-sci">mod</button>
+            <button data-action="parenthesis" data-value="(" class="btn btn-op">(</button>
+            <button data-action="parenthesis" data-value=")" class="btn btn-op">)</button>
+
+            <button data-action="sci-func" data-value="ln" class="btn btn-sci">ln</button>
+            <button data-action="sci-func" data-value="log" class="btn btn-sci">log</button>
+            <button data-action="sci-func" data-value="10^" class="btn btn-sci">10<sup>x</sup></button>
+            <button data-action="constant" data-value="π" class="btn btn-sci">π</button>
+            <button data-action="constant" data-value="e" class="btn btn-sci">e</button>
+            <button data-action="operator" data-value="÷" class="btn btn-op">÷</button>
+
+            <button data-action="sci-func" data-value="sqrt" class="btn btn-sci">√</button>
+            <button data-action="sci-func" data-value="cbrt" class="btn btn-sci">³√</button>
+            <button data-action="operator" data-value="^" class="btn btn-sci">x<sup>y</sup></button>
+            <button data-num data-value="7" class="btn btn-num">7</button>
+            <button data-num data-value="8" class="btn btn-num">8</button>
+            <button data-num data-value="9" class="btn btn-num">9</button>
+            <button data-action="operator" data-value="×" class="btn btn-op">×</button>
+
+            <button data-action="sci-func" data-value="sqr" class="btn btn-sci">x²</button>
+            <button data-action="sci-func" data-value="cube" class="btn btn-sci">x³</button>
+            <button data-action="sci-func" data-value="exp" class="btn btn-sci">e<sup>x</sup></button>
+            <button data-num data-value="4" class="btn btn-num">4</button>
+            <button data-num data-value="5" class="btn btn-num">5</button>
+            <button data-num data-value="6" class="btn btn-num">6</button>
+            <button data-action="operator" data-value="-" class="btn btn-op">-</button>
+
+            <button data-action="sci-func" data-value="abs" class="btn btn-sci">abs</button>
+            <button data-action="sci-func" data-value="fact" class="btn btn-sci">n!</button>
+            <button data-action="sci-func" data-value="recip" class="btn btn-sci">1/x</button>
+            <button data-num data-value="1" class="btn btn-num">1</button>
+            <button data-num data-value="2" class="btn btn-num">2</button>
+            <button data-num data-value="3" class="btn btn-num">3</button>
+            <button data-action="operator" data-value="+" class="btn btn-op">+</button>
+
+            <button data-action="negate" class="btn btn-sci">±</button>
+            <button data-action="sci-func" data-value="ee" class="btn btn-sci">EE</button>
+            <button data-action="percentage" class="btn btn-sci">%</button>
+            <button data-num data-value="0" class="btn btn-num span-two">0</button>
+            <button data-action="decimal" class="btn btn-num">.</button>
+            <button data-action="equals" class="btn btn-equals">=</button>
+        </section>
+
+        <aside id="history-panel" class="history-panel" aria-hidden="true">
+            <div class="history-header">
+                <h3>Calculation History</h3>
+                <button id="clear-history" class="btn-text">Clear All</button>
+            </div>
+            <div id="history-list" class="history-list">
+                </div>
+        </aside>
+    </div>
+
+    <div id="toast" class="toast" role="alert" aria-live="assertive"></div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
