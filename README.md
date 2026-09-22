@@ -107,3 +107,4 @@ This project is open-source and available for educational and personal use.
 
 Scientific Calculator Project
 Built with HTML, CSS, and JavaScript.
+if like give star
